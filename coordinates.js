@@ -1,5 +1,3 @@
-var config = require('../config');
-
 /**
  * Coordinates is used to convert isometric's {x:y} coordinates
  * into Canvas' {x:y} coordinates.
@@ -14,7 +12,7 @@ var config = require('../config');
  * @param {int} ccX canvas X coordinates where the Camera looks at will be drawn
  * @param {int} ccY canvas Y coordinates where the Camera looks at will be drawn
  */
-var Coordinates = function(icX, icY, ccX, ccY) {
+var Coordinates = function(icX, icY, ccX, ccY, tileW, decalX, decalY) {
     this.start = {
         x: 0,
         y: 0
@@ -27,10 +25,22 @@ var Coordinates = function(icX, icY, ccX, ccY) {
         ccX = 0;
         ccY = 0;
     }
+    if (tileW === undefined) {
+        tileW = 64;
+    }
+    if (decalX === undefined) {
+        decalX = 0
+    }
+    if ( decalY === undefined) {
+        decalY = 0
+    }
     this.icX = icX;
     this.icY = icY;
     this.ccX = ccX;
     this.ccY = ccY;
+    this.tileW = tileW;
+    this.decalX = decalX;
+    this.decalY = decalY;
 }
 
 /**
@@ -41,8 +51,8 @@ var Coordinates = function(icX, icY, ccX, ccY) {
  */
 Coordinates.prototype.computeCenter = function() {
     this.start = {
-        x: this.ccX - config.isoDecalX + ((this.icY - this.icX) * config.isoDecalX),
-        y: this.ccY - ((this.icX + this.icY) * config.isoDecalY)
+        x: this.ccX - this.decalX + ((this.icY - this.icX) * this.decalX),
+        y: this.ccY - ((this.icX + this.icY) * this.decalY)
     }
     return this;
 }
@@ -59,9 +69,11 @@ Coordinates.prototype.getStart = function () {
  * @param {int} y
  */
 Coordinates.prototype.fromTileCoordinates = function(x, y) {
+
+    console.log(this.start.x, this.tileW)
     return {
-        x: this.start.x + (x * config.tileTopW) - ((x + y) * config.isoDecalX),
-        y: this.start.y + ((x + y) * config.isoDecalY)
+        x: this.start.x + (x * this.tileW) - ((x + y) * this.decalX),
+        y: this.start.y + ((x + y) * this.decalY)
     }
 }
 
