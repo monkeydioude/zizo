@@ -70,7 +70,6 @@ Coordinates.prototype.getStart = function () {
  */
 Coordinates.prototype.fromTileCoordinates = function(x, y) {
 
-    console.log(this.start.x, this.tileW)
     return {
         x: this.start.x + (x * this.tileW) - ((x + y) * this.decalX),
         y: this.start.y + ((x + y) * this.decalY)

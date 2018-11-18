@@ -11,14 +11,12 @@ var Updater = require('gloop/updater'),
  * @param {Camera} camera 
  * @param {config} config 
  */
-var Isometric = function(renderer, displayUpdater, dataUpdater, camera, tileW, tileH) {
+var Isometric = function(renderer, displayUpdater, dataUpdater, camera) {
     this.renderer = renderer;
     this.displayUpdater = displayUpdater;
     this.dataUpdater = dataUpdater;
     this.map = [];
     this.camera = camera;
-    this.tileW = tileW;
-    this.tileH = tileH;
     this.objectUpdater = new Updater("iso");
     this.objects = new Objects();
 }
@@ -107,8 +105,7 @@ Isometric.prototype.drawImage = function(img, x, y) {
         return 1;
     }
     var coords = this.camera.getCoordinates().fromTileCoordinates(x, y);
-    //coords contain canvas {x:y} coordinates
-    this.renderer.drawImage(img, coords.x, coords.y, this.tileW, this.tileH);
+    img.render(this.renderer, coords.x, coords.y);
 }
 
 Isometric.prototype.getObjectUpdater = function() {
