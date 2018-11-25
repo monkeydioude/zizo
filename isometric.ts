@@ -2,6 +2,7 @@ import {Renderer} from "gloop/renderer"
 import {Updater} from "gloop/updater"
 import {Camera} from "./camera"
 import {Objects} from "./objects"
+import {Asset} from "gloop/assets/asset"
 
 export class Isometric {
     map: any = []
@@ -54,7 +55,7 @@ export class Isometric {
                 if (!this.map.map[y][x]) {
                     continue;
                 }
-                this.drawImage(this.map.map[y][x], x, y);
+                this.renderObject(this.map.map[y][x], x, y);
             }
         }
         return 1;
@@ -67,7 +68,7 @@ export class Isometric {
      * 
      * @return {number}
      */
-    renderObjects() {
+    renderObjects(T: number) {
         var objs = null;
         for (let x in this.objects.objects) {
             for (let y in this.objects.objects[x]) {
@@ -82,7 +83,7 @@ export class Isometric {
                     }
 
                     for (let i = 0; i < objs.length; i++) {
-                        this.drawImage(objs[i], nx, ny);
+                        this.renderObject(objs[i], nx, ny, T);
                     }
                 }
             }
@@ -106,16 +107,16 @@ export class Isometric {
     /**
      * drawImage draws an image on the scene using isometric {x:y} coordinates
      * 
-     * @param {Image} img
+     * @param {Asset} asset
      * @param {number} x
      * @param {number} y
      */
-    drawImage(img: any, x: number, y: number): number {
-        if (img === undefined || img === null) {
+    renderObject(asset: Asset, x: number, y: number, T?: number): number {
+        if (asset === undefined || asset === null) {
             return 1;
         }
         var coords = this.camera.getCoordinates().fromTileCoordinates(x, y);
-        img.render(this.renderer, coords.x, coords.y);
+        asset.render(this.renderer, coords.x, coords.y, T);
     }
 
     getObjectUpdater(): Updater {
