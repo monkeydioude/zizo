@@ -4,7 +4,7 @@
   "description": "isometric 2.5D engine",
   "main": "isometric.js",
   "dependencies": {
-    "gloop": "git+https://github.com/monkeydioude/gloop.git#feature/add-framesets"
+    "gloop": "git+https://github.com/monkeydioude/gloop.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
