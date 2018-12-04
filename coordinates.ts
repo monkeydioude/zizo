@@ -34,9 +34,8 @@ export class Coordinates {
      * @return {this}
      */
     computeCenter(): Coordinates {
-        this.start.x = this.ccX - this.decalX + ((this.icY - this.icX) * this.decalX)
+        this.start.x = this.ccX + ((this.icY - this.icX) * this.decalX)
         this.start.y = this.ccY - ((this.icX + this.icY) * this.decalY)
-
         return this
     }
 
@@ -53,8 +52,12 @@ export class Coordinates {
      * @returns {XY}
      */
     fromTileCoordinates(x: number, y: number): XY {
+        // magic +1 in X coordinqte is not magical. Needed because canvas draw using standard x,y coordinates
+        // to draw its image as rectangle from top left corner, but our tiles are not Rectangles,
+        // they are Diamonds and the "top left" corner equivalent to a diamond 
+        // is actually the "top middle" corner, so we need to start drawing X coordinate 1 decalX before.
         return new XY(
-            this.start.x + (x * this.tileW) - ((x + y) * this.decalX),
+            this.start.x + (x * this.tileW) - ((x + y + 1) * this.decalX),
             this.start.y + ((x + y) * this.decalY)
         )
     }
