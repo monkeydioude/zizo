@@ -81,9 +81,9 @@ export class Isometric {
                     if (!objs) {
                         continue;
                     }
-
                     for (let i = 0; i < objs.length; i++) {
-                        this.renderObject(objs[i], nx, ny, T);
+                        let obj = objs[i]
+                        this.renderObject(obj.entity, obj.x, obj.y, T);
                     }
                 }
             }

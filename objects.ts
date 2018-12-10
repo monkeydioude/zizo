@@ -1,3 +1,7 @@
+export class zObj {
+    constructor(public entity: any, public x: number, public y: number, public z: number) {}
+}
+
 export class Objects {
     objects: any = []
     zSafeThreshold: number = 3
@@ -33,20 +37,24 @@ export class Objects {
         }
     }
 
-    add(entity: any, x: number, y: number, z: number): boolean {
+    add(entity: any, x: number, y: number, z?: number): boolean {
+        let rx = x << 0,
+            ry = y << 0
+
         if (z === undefined) {
-            z = 0;
+            z = 0
         }
-        z += this.zSafeThreshold;
-        if (!this.canAddObject(entity, x, y, z)) {
-            return false;
+        z += this.zSafeThreshold
+        if (!this.canAddObject(entity, rx, ry, z)) {
+            return false
         }
 
-        this.prepareObjectsArray(x, y);
-        if (this.objects[x][y][z] === undefined) {
-            this.objects[x][y][z] = [];
+        this.prepareObjectsArray(rx, ry)
+        if (this.objects[rx][ry][z] === undefined) {
+            this.objects[rx][ry][z] = []
         }
-        this.objects[x][y][z].push(entity);
-        return true;
+
+        this.objects[rx][ry][z].push(new zObj(entity, x, y, z))
+        return true
     }
 }
