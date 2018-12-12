@@ -1,5 +1,5 @@
 import {Renderer} from "gloop/renderer"
-import {Updater} from "gloop/updater"
+import {Updater} from "../gloop/updater/updater"
 import {Camera} from "./camera"
 import {Objects} from "./objects"
 import {Asset} from "gloop/assets/asset"
@@ -25,7 +25,7 @@ export class Isometric {
         public dataUpdater: Updater,
         public camera: Camera
     ) {
-        this.objectUpdater = new Updater("iso");
+        this.objectUpdater = new Updater();
         this.objects = new Objects();
     }
 
@@ -121,5 +121,13 @@ export class Isometric {
 
     getObjectUpdater(): Updater {
         return this.objectUpdater;
+    }
+
+    getRenderer(): Renderer {
+        return this.renderer
+    }
+
+    getCamera(): Camera {
+        return this.camera
     }
 }
